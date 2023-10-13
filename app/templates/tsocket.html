@@ -34,6 +34,7 @@
     // const startButton = document.getElementById('start-button');
     // const stopButton = document.getElementById('stop-button');
 
+if (navigator.mediaDevices) {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(function (stream) {
         videoElement.srcObject = stream;
@@ -63,7 +64,11 @@
         console.log('Gambar dikirim');
       }, 2000); // Mengirim gambar setiap 2 detik
     });
+} else {
+    console.log('camera tidak di izinkan');
+}
   });
+
 
 
     </script>
