@@ -40,5 +40,5 @@ def daftar(gambar):
 	img = cv.imdecode(img_np, cv.IMREAD_COLOR)
 	if not os.path.exists('gambar'):
 		os.mkdir('gambar')
-	cv.imwrite('gambar/t1.png',img)
+	cv.imwrite('gambar/t2.png',img)
 	print('add gambar')
