@@ -8,7 +8,7 @@ def index():
     return "Bismillah"
 
 
-@app.route('/api/mendaftar', methods=['POST'])
+@app.route('/api/mendaftar', methods=['POST','GET'])
 def mendaftar():
     data = request.form
     print("Menerima", data)
