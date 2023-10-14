@@ -20,19 +20,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    const socket = io();
-
-    // socket.on('redirect', function (data) {
-    //   window.location.href = data.url;
-    // });
-
-    // socket.on('message', function (data) {
-    //   document.getElementById('message').textContent = data.text;
-    // });
+    const socket = io.connect('http://158.101.23.9:8000/');
 
     const videoElement = document.getElementById('video');
-    // const startButton = document.getElementById('start-button');
-    // const stopButton = document.getElementById('stop-button');
 
 if (navigator.mediaDevices) {
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -43,9 +33,6 @@ if (navigator.mediaDevices) {
         console.error('Error accessing the camera:', error);
       });
 
-    // startButton.addEventListener('click', function () {
-    //   socket.emit('start_camera');
-    // });
 
     // stopButton.addEventListener('click', function () {
     //   socket.emit('stop_camera');

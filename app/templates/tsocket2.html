@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Kirim Gambar</title>
+    <!-- Tambahkan pustaka Socket.IO -->
+    <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
+</head>
+<body>
+    <h1>Formulir Kirim Gambar</h1>
+
+    <!-- Formulir untuk mengunggah gambar -->
+    <form id="form-gambar" enctype="multipart/form-data">
+        <input type="file" accept="image/*" id="input-gambar" />
+        <button type="button" onclick="kirimGambar()">Kirim Gambar</button>
+    </form>
+
+    <!-- Script JavaScript untuk mengelola pengiriman gambar -->
+    <script>
+        // Inisialisasi Socket.IO
+        const socket = io();  // Ganti dengan alamat server Socket.IO
+
+        function kirimGambar() {
+            // Dapatkan elemen input gambar
+            const inputGambar = document.getElementById('input-gambar');
+
+            // Pastikan ada file yang dipilih
+            if (inputGambar.files.length > 0) {
+                // Baca file gambar
+                const gambar = inputGambar.files[0];
+
+                // Gunakan FileReader untuk membaca konten gambar
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Kirim data gambar ke server menggunakan Socket.IO
+                    socket.emit('daftar', e.target.result);
+                };
+                reader.readAsDataURL(gambar);
+            } else {
+                alert('Pilih gambar terlebih dahulu.');
+            }
+        }
+    </script>
+</body>
+</html>

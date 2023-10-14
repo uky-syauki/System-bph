@@ -8,8 +8,9 @@ import base64
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+# CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = SocketIO(app)
+cors = CORS(app, resources={r"/socket.io/*": {"origins": "*"}})
 
 @app.route('/')
 def index():
@@ -18,7 +19,7 @@ def index():
 
 @app.route('/camera')
 def camera():
-	return render_template('tsocket.html')
+	return render_template('tsocket2.html')
 
 
 @app.route('/api/get-data', methods=['GET','POST'])
