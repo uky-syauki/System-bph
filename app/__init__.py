@@ -32,6 +32,12 @@ def get_data():
 		)
 
 
+@socketio.on('pesan')
+def handle_message(message):
+	print("Menerima Pesan", message)
+	socketio.emit('message',message)
+	
+
 @socketio.on('daftar')
 def daftar(gambar):
 	print('gambar di terima')
