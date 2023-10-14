@@ -33,7 +33,6 @@ class Calgot(db.Model):
 
 
 @app.route('/')
-@app.route('/index')
 def index():
     return "Bismillah"
 
