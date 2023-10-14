@@ -4,44 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Kirim Gambar</title>
-    <!-- Tambahkan pustaka Socket.IO -->
-    <script src="{{ url_for('static', filename='socket.io.js') }}"></script>
+    <title>Ambil Gambar dari Webcam</title>
 </head>
 <body>
-    <h1>Formulir Kirim Gambar</h1>
+    <h1>Ambil Gambar dari Webcam</h1>
 
-    <!-- Formulir untuk mengunggah gambar -->
-    <form id="form-gambar" enctype="multipart/form-data">
-        <input type="file" accept="image/*" id="input-gambar" />
-        <button type="button" onclick="kirimGambar()">Kirim Gambar</button>
-    </form>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button onclick="ambilGambar()">Ambil Gambar</button>
+    <canvas id="canvas" width="640" height="480"></canvas>
 
-    <!-- Script JavaScript untuk mengelola pengiriman gambar -->
     <script>
-        // Inisialisasi Socket.IO
-        const socket = io();  // Ganti dengan alamat server Socket.IO
+        async function setupKamera() {
+            const video = document.getElementById('video');
 
-        function kirimGambar() {
-            // Dapatkan elemen input gambar
-            const inputGambar = document.getElementById('input-gambar');
-
-            // Pastikan ada file yang dipilih
-            if (inputGambar.files.length > 0) {
-                // Baca file gambar
-                const gambar = inputGambar.files[0];
-
-                // Gunakan FileReader untuk membaca konten gambar
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    // Kirim data gambar ke server menggunakan Socket.IO
-                    socket.emit('daftar', e.target.result);
-                };
-                reader.readAsDataURL(gambar);
-            } else {
-                alert('Pilih gambar terlebih dahulu.');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('Gagal mengakses kamera:', error);
             }
         }
+
+        function ambilGambar() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            // Pastikan video sudah dimuat
+            video.addEventListener('loadeddata', () => {
+                // Gambar frame video ke elemen canvas
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Dapatkan data URL dari elemen canvas
+                const dataURL = canvas.toDataURL('image/png');
+
+                // Kirim data URL ke server atau lakukan tindakan lain
+                console.log('Data URL gambar:', dataURL);
+            });
+        }
+
+        // Setup kamera ketika halaman dimuat
+        window.onload = setupKamera;
     </script>
 </body>
 </html>
